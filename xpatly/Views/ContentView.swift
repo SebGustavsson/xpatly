@@ -6,16 +6,23 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import FirebaseFirestore
+
+
 
 struct ContentView: View {
+    
+    @ObservedObject var model = ViewModel()
+
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        List (model.list) { country in
+            Text(country.name)
         }
-        .padding()
+    }
+    init() {
+        model.getCountry()
     }
 }
 

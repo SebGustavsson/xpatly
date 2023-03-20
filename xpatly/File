@@ -1,0 +1,32 @@
+{
+  "euCountries": [
+    {
+      "id": 1,
+      "name": "Sweden",
+      "visaOptions": [
+        {
+          "type": "Work",
+          "duration": "2 years"
+        },
+        {
+          "type": "Study",
+          "duration": "4 years"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Australia",
+      "visaOptions": [
+        {
+          "type": "Work",
+          "duration": "3 years"
+        },
+        {
+          "type": "Retirement",
+          "duration": "Indefinite"
+        }
+      ]
+    }
+  ]
+}
