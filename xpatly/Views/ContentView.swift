@@ -20,9 +20,15 @@ struct ContentView: View {
         List (model.list) { country in
             Text(country.name)
         }
-    }
-    init() {
-        model.getCountry()
+        .onAppear {
+            Task {
+                do {
+                    model.list = try await model.getCountry()
+                } catch{
+                    print("\(error)")
+                }
+            }
+        }
     }
 }
 

@@ -11,21 +11,11 @@ import Firebase
 class ViewModel: ObservableObject {
     @Published var list = [Country]()
     
-    func getCountry() {
-        let db = Firestore.firestore()
-        db.collection("countries").getDocuments { snapshot, error in
-            if error == nil {
-                if let snapshot = snapshot {
-                    DispatchQueue.main.async {
-                        self.list = snapshot.documents.map {document in
-                            return Country(name: document["name"] as? String ?? "", id: document.documentID)
-                        }
-                    }
-                }
-            }
-            else {
-                
-            }
-        }
-    }
+    func getCountry() async throws -> [Country] {
+           let db = Firestore.firestore()
+           let snapshot = try await db.collection("countries").getDocuments()
+           return snapshot.documents.map { document in
+               return Country(name: document["name"] as? String ?? "", id: document.documentID)
+           }
+       }
 }
