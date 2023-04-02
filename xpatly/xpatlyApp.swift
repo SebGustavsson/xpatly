@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 
 
-@main
+@main   
 struct xpatlyApp: App {
     
     init() {

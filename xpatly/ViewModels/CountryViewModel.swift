@@ -7,8 +7,9 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
-class ViewModel: ObservableObject {
+class CountryViewModel: ObservableObject {
     @Published var list = [Country]()
     
     func getCountry() async throws -> [Country] {

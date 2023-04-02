@@ -13,18 +13,17 @@ import FirebaseFirestore
 
 struct ContentView: View {
     
-    @ObservedObject var model = ViewModel()
-
-
+    @ObservedObject var country = CountryViewModel()
+    
     var body: some View {
-        List (model.list) { country in
+        List (country.list) { country in
             Text(country.name)
         }
         .onAppear {
             Task {
                 do {
-                    model.list = try await model.getCountry()
-                } catch{
+                    country.list = try await country.getCountry()
+                } catch {
                     print("\(error)")
                 }
             }

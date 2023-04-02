@@ -10,8 +10,11 @@ import Foundation
 struct Country: Identifiable {
     var name: String
     var id: String
-    var visa: Dictionary = [
-        "duration": 0,
-        "type": ""
-    ] as [String : Any]
+    var visa: [Visa]?
+    
+    init(name: String, id: String, visa: [Visa]? = nil) {
+        self.name = name
+        self.id = id
+        self.visa = visa
+    }
 }
