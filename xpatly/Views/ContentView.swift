@@ -12,16 +12,16 @@ import FirebaseFirestore
 
 struct ContentView: View {
     
-    @ObservedObject var country = CountryViewModel()
+    @ObservedObject var countryModel = CountryViewModel()
     
     var body: some View {
-            List (country.list) { country in
+            List (countryModel.list) { country in
                 NavigationLink(destination: CountryView(country: country)) {
                     Text(country.name)
                         .onTapGesture {
                             Task {
                                 do {
-                                    country.visaList = try await country.getVisa()
+                                    countryModel.visaList = try await countryModel.getVisa(for: <#T##Country#>)
                                 }
                             }
                         }
@@ -30,7 +30,7 @@ struct ContentView: View {
         .onAppear {
             Task {
                 do {
-                    country.list = try await country.getCountry()
+                    countryModel.list = try await countryModel.getCountry()
                 } catch {
                     print("\(error)")
                 }
