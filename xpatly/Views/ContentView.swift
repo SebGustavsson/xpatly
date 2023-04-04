@@ -10,15 +10,23 @@ import FirebaseCore
 import FirebaseFirestore
 
 
-
 struct ContentView: View {
     
     @ObservedObject var country = CountryViewModel()
     
     var body: some View {
-        List (country.list) { country in
-            Text(country.name)
-        }
+            List (country.list) { country in
+                NavigationLink(destination: CountryView(country: country)) {
+                    Text(country.name)
+                        .onTapGesture {
+                            Task {
+                                do {
+                                    country.visaList = try await country.getVisa()
+                                }
+                            }
+                        }
+                }
+            }
         .onAppear {
             Task {
                 do {
