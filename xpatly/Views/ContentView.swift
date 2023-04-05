@@ -15,18 +15,20 @@ struct ContentView: View {
     @ObservedObject var countryModel = CountryViewModel()
     
     var body: some View {
+        NavigationView {
             List (countryModel.list) { country in
-                NavigationLink(destination: CountryView(country: country)) {
+                NavigationLink(destination: CountryView(country: country, visaList: countryModel.visaList)) {
                     Text(country.name)
                         .onTapGesture {
                             Task {
                                 do {
-                                    countryModel.visaList = try await countryModel.getVisa(for: <#T##Country#>)
+                                    countryModel.visaList = try await countryModel.getVisa(for: country)
                                 }
                             }
                         }
                 }
             }
+        }
         .onAppear {
             Task {
                 do {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Visa {
+struct Visa: Hashable {
     var type: String
     var duration: Int
 }
