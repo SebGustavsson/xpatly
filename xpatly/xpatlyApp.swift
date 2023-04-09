@@ -22,3 +22,9 @@ struct xpatlyApp: App {
         }
     }
 }
+
+struct NavigationPrimary_Previews: PreviewProvider {
+  static var previews: some View {
+      ContentView()
+  }
+}
