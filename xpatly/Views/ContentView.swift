@@ -12,27 +12,41 @@ import FirebaseFirestore
 
 struct ContentView: View {
     
-    @ObservedObject var countryModel = CountryViewModel()
+    @ObservedObject var countryViewModel = CountryViewModel()
+    @ObservedObject var visaViewModel = VisaViewModel()
+    @State var selectedCountry: Country?
+
     
     var body: some View {
-        NavigationView {
-            List (countryModel.list) { country in
-                NavigationLink(destination: CountryView(country: country, visaList: countryModel.visaList)) {
-                    Text(country.name)
-                        .onTapGesture {
-                            Task {
-                                do {
-                                    countryModel.visaList = try await countryModel.getVisa(for: country)
-                                }
-                            }
+        VStack {
+            Form {
+                Section(header: Text("Nationality")) {
+                    Picker(selection: $selectedCountry, label: Text("Select a country")) {
+                        ForEach(countryViewModel.list) { country in
+                            Text("\(country.flag) \(country.name)").tag(country as Country?)
                         }
+                    }.onChange(of: selectedCountry) { value in
+                        if let selectedCountry = value {
+                            countryViewModel.selectedCountry = selectedCountry
+                            print("selected country: \(selectedCountry)")
+                        }
+                    }
                 }
+                Section(header: Text("Years of work experience")) {
+                    Stepper(value: $visaViewModel.yearsOfExperience, in: 0...30) {
+                        Text("Years of experience: \(String($visaViewModel.yearsOfExperience.wrappedValue))")
+                    }
+                }
+                Button("Print selected country") {
+                                print("Selected country: \(String(describing: countryViewModel.selectedCountry))")
+                            }
             }
+         
         }
         .onAppear {
             Task {
                 do {
-                    countryModel.list = try await countryModel.getCountry()
+                    countryViewModel.list = try await countryViewModel.getCountry()
                 } catch {
                     print("\(error)")
                 }
@@ -41,8 +55,13 @@ struct ContentView: View {
     }
 }
 
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+
+
+
+
