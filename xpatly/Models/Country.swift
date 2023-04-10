@@ -29,9 +29,5 @@ struct Country: Identifiable, Hashable, Equatable {
         self.visa = visa
         self.region = region
         self.countryCode = countryCode
-    }
-    func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
-    
+    }    
 }

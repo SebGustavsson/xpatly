@@ -14,21 +14,20 @@ struct ContentView: View {
     
     @ObservedObject var countryViewModel = CountryViewModel()
     @ObservedObject var visaViewModel = VisaViewModel()
-    @State var selectedCountry: Country?
-
+    @State var chosenNationality: Country?
+    
     
     var body: some View {
         VStack {
             Form {
                 Section(header: Text("Nationality")) {
-                    Picker(selection: $selectedCountry, label: Text("Select a country")) {
+                    Picker(selection: $chosenNationality, label: Text("What's your nationality?")) {
                         ForEach(countryViewModel.list) { country in
                             Text("\(country.flag) \(country.name)").tag(country as Country?)
                         }
-                    }.onChange(of: selectedCountry) { value in
-                        if let selectedCountry = value {
-                            countryViewModel.selectedCountry = selectedCountry
-                            print("selected country: \(selectedCountry)")
+                    }.onChange(of: chosenNationality) { value in
+                        if let chosenNationality = value {
+                            countryViewModel.selectedCountry = chosenNationality
                         }
                     }
                 }
@@ -37,16 +36,18 @@ struct ContentView: View {
                         Text("Years of experience: \(String($visaViewModel.yearsOfExperience.wrappedValue))")
                     }
                 }
-                Button("Print selected country") {
-                                print("Selected country: \(String(describing: countryViewModel.selectedCountry))")
-                            }
+                Section(header: Text("Preferred region")) {
+                    Picker(selection: $visaViewModel.preferredRegion, label: Text("What's your preferred region?")) {
+                        
+                    }
+                }
             }
          
         }
         .onAppear {
             Task {
                 do {
-                    countryViewModel.list = try await countryViewModel.getCountry()
+                    countryViewModel.list = try await countryViewModel.getAllCountries()
                 } catch {
                     print("\(error)")
                 }
