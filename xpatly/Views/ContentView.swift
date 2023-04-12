@@ -14,7 +14,9 @@ struct ContentView: View {
     
     @ObservedObject var countryViewModel = CountryViewModel()
     @ObservedObject var visaViewModel = VisaViewModel()
+    @ObservedObject var regionViewModel = RegionViewModel()
     @State var chosenNationality: Country?
+    @State var chosenRegion: Region?
     
     
     var body: some View {
@@ -22,7 +24,7 @@ struct ContentView: View {
             Form {
                 Section(header: Text("Nationality")) {
                     Picker(selection: $chosenNationality, label: Text("What's your nationality?")) {
-                        ForEach(countryViewModel.list) { country in
+                        ForEach(countryViewModel.allCountries) { country in
                             Text("\(country.flag) \(country.name)").tag(country as Country?)
                         }
                     }.onChange(of: chosenNationality) { value in
@@ -37,8 +39,14 @@ struct ContentView: View {
                     }
                 }
                 Section(header: Text("Preferred region")) {
-                    Picker(selection: $visaViewModel.preferredRegion, label: Text("What's your preferred region?")) {
-                        
+                    Picker(selection: $chosenRegion, label: Text("What's your preferred region?")) {
+                        ForEach(regionViewModel.allRegions) { region in
+                            Text("\(region.regionFlag)  \(region.name)").tag(region as Region?)
+                        }.onChange(of: chosenRegion) { value in
+                            if let chosenRegion = value {
+                                regionViewModel.preferredRegion = chosenRegion
+                            }
+                        }
                     }
                 }
             }
@@ -47,7 +55,8 @@ struct ContentView: View {
         .onAppear {
             Task {
                 do {
-                    countryViewModel.list = try await countryViewModel.getAllCountries()
+                    countryViewModel.allCountries = try await countryViewModel.getAllCountries()
+                    regionViewModel.allRegions = try await regionViewModel.getAllRegions()
                 } catch {
                     print("\(error)")
                 }

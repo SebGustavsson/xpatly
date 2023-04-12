@@ -11,7 +11,6 @@ import FirebaseFirestore
 
 class VisaViewModel: ObservableObject {
     @Published var yearsOfExperience: Int = 0
-    @Published var preferredRegion: String?
     let db = Firestore.firestore()
     var countryViewModel = CountryViewModel()
 

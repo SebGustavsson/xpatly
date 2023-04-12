@@ -10,10 +10,11 @@ import Firebase
 import FirebaseFirestore
 
 class CountryViewModel: ObservableObject {
-    @Published var list = [Country]()
-    @Published var selectedCountry: Country? 
+    @Published var allCountries = [Country]()
+    @Published var selectedCountry: Country?
     let db = Firestore.firestore()
 
+    
 
     
     func getAllCountries() async throws -> [Country] {
@@ -23,5 +24,6 @@ class CountryViewModel: ObservableObject {
            }
        }
     
+  
     
 }
