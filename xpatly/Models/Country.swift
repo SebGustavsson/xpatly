@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseFirestore
+
 
 struct Country: Identifiable, Hashable, Equatable {
     var name: String
     var id: String
     var visa: [Visa]?
-    var region: String
+    var region: DocumentReference?
     var countryCode: String
     var flag: String {
         let base: UInt32 = 127397
@@ -23,7 +26,7 @@ struct Country: Identifiable, Hashable, Equatable {
     }
  
     
-    init(name: String, id: String, visa: [Visa]? = nil, region: String, countryCode: String) {
+    init(name: String, id: String, visa: [Visa]? = nil, region: DocumentReference, countryCode: String) {
         self.name = name
         self.id = id
         self.visa = visa

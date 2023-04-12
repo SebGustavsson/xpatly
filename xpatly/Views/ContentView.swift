@@ -28,7 +28,7 @@ struct ContentView: View {
                             Text("\(country.flag) \(country.name)").tag(country as Country?)
                         }
                     }.onChange(of: chosenNationality) { value in
-                        if let chosenNationality = value {
+                        if chosenNationality == value {
                             countryViewModel.selectedCountry = chosenNationality
                         }
                     }
@@ -43,8 +43,19 @@ struct ContentView: View {
                         ForEach(regionViewModel.allRegions) { region in
                             Text("\(region.regionFlag)  \(region.name)").tag(region as Region?)
                         }.onChange(of: chosenRegion) { value in
-                            if let chosenRegion = value {
-                                regionViewModel.preferredRegion = chosenRegion
+                            if chosenRegion == value {
+                                countryViewModel.preferredRegion = chosenRegion
+                            }
+                        }
+                    }
+                    Button("Find countries") {
+                        Task {
+                            do {
+                                countryViewModel.countriesFromPreferredRegion = try await countryViewModel.filterCountriesFromRegion()
+                                print(countryViewModel.allCountries)
+                            }
+                            catch {
+                                print("\(error)")
                             }
                         }
                     }

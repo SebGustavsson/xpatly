@@ -11,7 +11,6 @@ import FirebaseFirestore
 
 class RegionViewModel: ObservableObject {
     @Published var allRegions: [Region] = []
-    @Published var preferredRegion: Region?
     let db = Firestore.firestore()
     
     func getAllRegions() async throws -> [Region] {
@@ -20,5 +19,7 @@ class RegionViewModel: ObservableObject {
             return Region( id: document.documentID, name: document["name"] as? String ?? "", regionCode: document["region_code"] as? String ?? "")
         }
     }
+    
+    
     
 }
