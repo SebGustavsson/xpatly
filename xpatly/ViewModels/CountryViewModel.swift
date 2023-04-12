@@ -26,7 +26,7 @@ class CountryViewModel: ObservableObject {
     
     func filterCountriesFromRegion() throws -> [Country] {
         for country in allCountries {
-            print(country.region!.collection)
+            print(country.region!.path)
         }
         return allCountries.filter { $0.region?.path == preferredRegion!.name }
     }
