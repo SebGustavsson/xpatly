@@ -16,7 +16,20 @@ class CountryViewModel: ObservableObject {
     @Published var preferredRegion: Region?
     @Published var yearsOfExperience: Int = 0
     var countriesFromPreferredRegion: [Country] = []
+    var eligableCountries: [Country] = []
     let db = Firestore.firestore()
+    
+    // fetches an array containing each countries visas
+    func getVisa(for country: Country) async throws -> [Visa] {
+        let snapshot = try await db.collection("countries").document(country.id).collection("visa").getDocuments()
+        return snapshot.documents.map { document in
+            return Visa(
+                        type: document["type"] as? String ?? "",
+                        duration: document["duration"] as? Int ?? 0,
+                        experience: document["experience"] as? Int ?? 0)
+        }
+    }
+    
     
     func getAllCountries() async throws -> [Country] {
         let snapshot = try await db.collection("countries").getDocuments()
@@ -34,23 +47,14 @@ class CountryViewModel: ObservableObject {
             country.visas = visas
             countries.append(country)
         }
-        
         return countries
-    }
-    func getVisa(for country: Country) async throws -> [Visa] {
-        let snapshot = try await db.collection("countries").document(country.id).collection("visa").getDocuments()
-        return snapshot.documents.map { document in
-            return Visa(
-                        type: document["type"] as? String ?? "",
-                        duration: document["duration"] as? Int ?? 0,
-                        experience: document["experience"] as? Int ?? 0)
-        }
     }
     
     func filterCountriesFromRegion() throws -> [Country] {
         return allCountries.filter { $0.region?.documentID == preferredRegion!.id }
     }
     
+    // returns countries that have a visa with a required work experience matching the users
     func filterCountriesByExperience() throws -> [Country] {
         let countriesByRegion = try filterCountriesFromRegion()
         var filteredCountries: [Country] = []
@@ -64,7 +68,6 @@ class CountryViewModel: ObservableObject {
                 }
             }
         }
-        print(filteredCountries)
         return filteredCountries
     }
     

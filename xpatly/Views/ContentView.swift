@@ -17,6 +17,7 @@ struct ContentView: View {
     @ObservedObject var regionViewModel = RegionViewModel()
     @State var chosenNationality: Country?
     @State var chosenRegion: Region?
+    @State var showEligableCountries = false
     
     
     var body: some View {
@@ -54,9 +55,8 @@ struct ContentView: View {
             Button("Find countries") {
                 Task {
                     do {
-                        countryViewModel.countriesFromPreferredRegion = try  countryViewModel.filterCountriesFromRegion()
-                        try countryViewModel.filterCountriesByExperience()
-                        print(try countryViewModel.filterCountriesByExperience())
+                        countryViewModel.eligableCountries = try countryViewModel.filterCountriesByExperience()
+                        showEligableCountries = true
                     }
                     catch {
                         print("\(error)")
@@ -67,6 +67,25 @@ struct ContentView: View {
                 .foregroundColor(.white)
                 .cornerRadius(5)
                 .frame(maxWidth: .infinity, alignment: .center)
+                .sheet(isPresented: $showEligableCountries) {
+                    
+                    NavigationStack {
+                        VStack {
+                                Text("Here are some possible options")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity)
+                                    .multilineTextAlignment(.center)
+                                    .padding()
+                        List {
+                                ForEach (countryViewModel.eligableCountries) { country in
+                                    NavigationLink(destination: Text("Detailed View")) {
+                                        Text("\(country.flag) \(country.name)").tag(country as Country?)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
         }
         .onAppear {
             Task {
