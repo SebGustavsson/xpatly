@@ -77,9 +77,9 @@ struct ContentView: View {
                                     .multilineTextAlignment(.center)
                                     .padding()
                         List {
-                                ForEach (countryViewModel.eligableCountries) { country in
-                                    NavigationLink(destination: Text("Detailed View")) {
-                                        Text("\(country.flag) \(country.name)").tag(country as Country?)
+                            ForEach (countryViewModel.eligableCountries, id: \.self) { country in
+                                    NavigationLink(destination: CountryInfoView(country: country)) {
+                                        Text("\(country.flag) \(country.name)")
                                     }
                                 }
                             }
