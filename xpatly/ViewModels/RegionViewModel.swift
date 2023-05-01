@@ -16,7 +16,10 @@ class RegionViewModel: ObservableObject {
     func getAllRegions() async throws -> [Region] {
         let snapshot = try await db.collection("regions").getDocuments()
         return snapshot.documents.map { document in
-            return Region( id: document.documentID, name: document["name"] as? String ?? "", regionCode: document["region_code"] as? String ?? "")
+            return Region(
+                id: document.documentID,
+                name: document["name"] as? String ?? "",
+                regionCode: document["region_code"] as? String ?? "")
         }
     }
     

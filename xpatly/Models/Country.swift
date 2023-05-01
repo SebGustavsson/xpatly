@@ -13,7 +13,8 @@ import FirebaseFirestore
 struct Country: Identifiable, Hashable, Equatable {
     var name: String
     var id: String
-    var visa: [Visa]?
+    var visas: [Visa]?
+    var visaCollection: CollectionReference?
     var region: DocumentReference?
     var countryCode: String
     var flag: String {
@@ -26,10 +27,10 @@ struct Country: Identifiable, Hashable, Equatable {
     }
  
     
-    init(name: String, id: String, visa: [Visa]? = nil, region: DocumentReference, countryCode: String) {
+    init(name: String, id: String, visas: [Visa]? = nil, region: DocumentReference, countryCode: String) {
         self.name = name
         self.id = id
-        self.visa = visa
+        self.visas = visas
         self.region = region
         self.countryCode = countryCode
     }    

@@ -34,8 +34,8 @@ struct ContentView: View {
                     }
                 }
                 Section(header: Text("Years of work experience")) {
-                    Stepper(value: $visaViewModel.yearsOfExperience, in: 0...30) {
-                        Text("Years of experience: \(String($visaViewModel.yearsOfExperience.wrappedValue))")
+                    Stepper(value: $countryViewModel.yearsOfExperience, in: 0...30) {
+                        Text("Years of experience: \(String($countryViewModel.yearsOfExperience.wrappedValue))")
                     }
                 }
                 Section(header: Text("Preferred region")) {
@@ -48,20 +48,25 @@ struct ContentView: View {
                             }
                         }
                     }
-                    Button("Find countries") {
-                        Task {
-                            do {
-                                countryViewModel.countriesFromPreferredRegion = try await countryViewModel.filterCountriesFromRegion()
-                                print(countryViewModel.allCountries)
-                            }
-                            catch {
-                                print("\(error)")
-                            }
-                        }
+                  
+                }
+        }
+            Button("Find countries") {
+                Task {
+                    do {
+                        countryViewModel.countriesFromPreferredRegion = try  countryViewModel.filterCountriesFromRegion()
+                        try countryViewModel.filterCountriesByExperience()
+                        print(try countryViewModel.filterCountriesByExperience())
+                    }
+                    catch {
+                        print("\(error)")
                     }
                 }
-            }
-         
+            }.padding(10)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(5)
+                .frame(maxWidth: .infinity, alignment: .center)
         }
         .onAppear {
             Task {

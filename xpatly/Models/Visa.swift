@@ -10,4 +10,5 @@ import Foundation
 struct Visa: Hashable {
     var type: String
     var duration: Int
+    var experience: Int
 }
