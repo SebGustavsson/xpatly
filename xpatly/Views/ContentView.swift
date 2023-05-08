@@ -57,6 +57,8 @@ struct ContentView: View {
                     do {
                         countryViewModel.eligableCountries = try countryViewModel.filterCountriesByExperience()
                         showEligableCountries = true
+                        print(countryViewModel.eligableCountries)
+
                     }
                     catch {
                         print("\(error)")

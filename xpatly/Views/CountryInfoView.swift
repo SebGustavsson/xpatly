@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import FirebaseFirestore
+import Firebase
 
 
 struct CountryInfoView: View {
@@ -22,6 +24,17 @@ struct CountryInfoView: View {
             Image(countryImageURLs[country.name] ?? "default")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+                .ignoresSafeArea()
+            
+
+            Spacer()
         }
+    }
+}
+
+ struct CountryInfoView_Previews: PreviewProvider {
+    static var previews: some View {
+        let dummyRef = Firestore.firestore().document("dummy/country")
+        CountryInfoView(country: Country(name: "Malaysia", id: "3", region: dummyRef, countryCode: "MY"))
     }
 }
