@@ -41,7 +41,8 @@ class CountryViewModel: ObservableObject {
                 name: document["name"] as? String ?? "",
                 id: document.documentID,
                 region: (document["region"] as? DocumentReference)!,
-                countryCode: document["country_code"] as? String ?? "")
+                countryCode: document["country_code"] as? String ?? "",
+                description: document["description"] as? String ?? "")
             
             let visas = try await getVisa(for: country)
             country.visas = visas

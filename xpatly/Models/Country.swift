@@ -25,13 +25,15 @@ struct Country: Identifiable, Hashable, Equatable {
         }
         return flagString
     }
+    var description: String
  
     
-    init(name: String, id: String, visas: [Visa]? = nil, region: DocumentReference, countryCode: String) {
+    init(name: String, id: String, visas: [Visa]? = nil, region: DocumentReference, countryCode: String, description: String) {
         self.name = name
         self.id = id
         self.visas = visas
         self.region = region
         self.countryCode = countryCode
+        self.description = description
     }    
 }
