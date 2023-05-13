@@ -14,7 +14,7 @@ struct ContentView: View {
     
     @ObservedObject var countryViewModel = CountryViewModel()
     @ObservedObject var visaViewModel = VisaViewModel()
-    @ObservedObject var regionViewModel = RegionViewModel()
+    @StateObject private var regionViewModel = RegionViewModel()
     @State var chosenNationality: Country?
     @State var chosenRegion: Region?
     @State var showEligableCountries = false
@@ -25,13 +25,13 @@ struct ContentView: View {
             Form {
                 Section(header: Text("Nationality")) {
                     Picker(selection: $chosenNationality, label: Text("What's your nationality?")) {
+                        
                         ForEach(countryViewModel.allCountries) { country in
                             Text("\(country.flag) \(country.name)").tag(country as Country?)
                         }
+                    
                     }.onChange(of: chosenNationality) { value in
-                        if chosenNationality == value {
                             countryViewModel.selectedCountry = chosenNationality
-                        }
                     }
                 }
                 Section(header: Text("Years of work experience")) {
@@ -44,9 +44,7 @@ struct ContentView: View {
                         ForEach(regionViewModel.allRegions) { region in
                             Text("\(region.regionFlag)  \(region.name)").tag(region as Region?)
                         }.onChange(of: chosenRegion) { value in
-                            if chosenRegion == value {
                                 countryViewModel.preferredRegion = chosenRegion
-                            }
                         }
                     }
                   
@@ -55,9 +53,9 @@ struct ContentView: View {
             Button("Find countries") {
                 Task {
                     do {
-                        countryViewModel.eligableCountries = try countryViewModel.filterCountriesByExperience()
+                        countryViewModel.selectedCountry = chosenNationality
+                        countryViewModel.eligableCountries = try  countryViewModel.filterCountriesByExperience()
                         showEligableCountries = true
-                        print(countryViewModel.eligableCountries)
 
                     }
                     catch {
@@ -70,22 +68,21 @@ struct ContentView: View {
                 .cornerRadius(5)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .sheet(isPresented: $showEligableCountries) {
-                    
-                    NavigationStack {
-                        VStack {
+                        NavigationStack {
+                            VStack {
                                 Text("Here are some possible options")
                                     .font(.headline)
                                     .frame(maxWidth: .infinity)
                                     .multilineTextAlignment(.center)
                                     .padding()
-                        List {
-                            ForEach (countryViewModel.eligableCountries, id: \.self) { country in
-                                    NavigationLink(destination: CountryInfoView(country: country)) {
-                                        Text("\(country.flag) \(country.name)")
+                                List {
+                                    ForEach (countryViewModel.eligableCountries, id: \.self) { country in
+                                        NavigationLink(destination: CountryInfoView(country: country)) {
+                                            Text("\(country.flag) \(country.name)")
+                                        }
                                     }
                                 }
                             }
-                        }
                     }
                 }
         }
@@ -93,7 +90,9 @@ struct ContentView: View {
             Task {
                 do {
                     countryViewModel.allCountries = try await countryViewModel.getAllCountries()
-                    regionViewModel.allRegions = try await regionViewModel.getAllRegions()
+                    let regions = try await regionViewModel.getAllRegions()
+                        regionViewModel.allRegions = regions
+                        chosenRegion = regionViewModel.allRegions.first
                 } catch {
                     print("\(error)")
                 }

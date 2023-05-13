@@ -20,19 +20,23 @@ struct CountryInfoView: View {
     ]
     
     var body: some View {
-        VStack(spacing: 10) {
-            Image(countryImageURLs[country.name] ?? "default")
-                .resizable()
-                .ignoresSafeArea()
-            
-            Text(country.name)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding(.leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
-            Text(country.description)
-            Spacer()
+        ScrollView {
+            VStack(spacing: 10) {
+                Image(countryImageURLs[country.name] ?? "default")
+                    .resizable()
+                    .ignoresSafeArea()
+                    .frame(height: 500)
+                
+                Text(country.name)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Text(country.description)
+                    .padding(15)
+                Spacer()
+            }
         }
     }
 }
@@ -40,6 +44,6 @@ struct CountryInfoView: View {
  struct CountryInfoView_Previews: PreviewProvider {
     static var previews: some View {
         let dummyRef = Firestore.firestore().document("dummy/country")
-        CountryInfoView(country: Country(name: "Malaysia", id: "3", region: dummyRef, countryCode: "MY", description: "String"))
+        CountryInfoView(country: Country(name: "Malaysia", id: "3", region: dummyRef, countryCode: "MY", description: "Known for its technological advancements, South Korea is a perfect destination for digital nomads. With high-speed internet, efficient public transportation, and bustling cities like Seoul, you'll have access to a thriving tech scene and a rich cultural experience."))
     }
 }

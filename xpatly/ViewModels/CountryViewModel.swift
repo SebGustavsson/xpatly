@@ -14,6 +14,7 @@ class CountryViewModel: ObservableObject {
     @Published var allCountries = [Country]()
     @Published var selectedCountry: Country?
     @Published var preferredRegion: Region?
+    @ObservedObject var regionViewModel = RegionViewModel()
     @Published var yearsOfExperience: Int = 0
     var countriesFromPreferredRegion: [Country] = []
     var eligableCountries: [Country] = []
@@ -51,12 +52,13 @@ class CountryViewModel: ObservableObject {
         return countries
     }
     
-    func filterCountriesFromRegion() throws -> [Country] {
-        return allCountries.filter { $0.region?.documentID == preferredRegion!.id }
+    func filterCountriesFromRegion()  throws -> [Country] {
+        selectedCountry == nil ? selectedCountry = allCountries.first : nil
+        return allCountries.filter { $0.region?.documentID == preferredRegion!.id && $0.id != selectedCountry!.id}
     }
     
     // returns countries that have a visa with a required work experience matching the users
-    func filterCountriesByExperience() throws -> [Country] {
+    func filterCountriesByExperience()  throws -> [Country] {
         let countriesByRegion = try filterCountriesFromRegion()
         var filteredCountries: [Country] = []
         for country in countriesByRegion {
