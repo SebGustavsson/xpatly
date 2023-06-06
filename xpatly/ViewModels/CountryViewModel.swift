@@ -90,8 +90,6 @@ class CountryViewModel: ObservableObject {
             
             if let decodedResponse = try? JSONDecoder().decode(WeatherInfo.self, from: data) {
                 weatherInfos = decodedResponse
-                print(weatherInfos?.current)
-                print("test")
             }
         } catch {
             print(error)

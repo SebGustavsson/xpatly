@@ -52,6 +52,8 @@ struct CountryInfoView: View {
                         }
                     }
                 }
+                Text(
+                    weatherInfo?.current.condition.text ?? "")
                 Spacer()
             }
         }

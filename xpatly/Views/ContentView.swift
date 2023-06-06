@@ -86,6 +86,7 @@ struct ContentView: View {
                                             Task {
                                                 do {
                                                     weatherInfo = try await countryViewModel.getCountryWeather(_countryName: country.name)
+
                                                 } catch {
                                                     print(error)
                                                 }
