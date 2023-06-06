@@ -21,6 +21,9 @@
 		A919931E29C2427E00B54161 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A919931D29C2427E00B54161 /* FirebaseFirestoreSwift */; };
 		A919932029C2427E00B54161 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A919931F29C2427E00B54161 /* FirebaseStorage */; };
 		A919932229C2427E00B54161 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = A919932129C2427E00B54161 /* FirebaseStorageCombine-Community */; };
+		A91F2B652A2F790600901C26 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F2B642A2F790600901C26 /* Keys.swift */; };
+		A91F2B692A2F7AB700901C26 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A91F2B682A2F7AB700901C26 /* .gitignore */; };
+		A91F2B6D2A2F927000901C26 /* WeatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F2B6C2A2F927000901C26 /* WeatherInfo.swift */; };
 		A9B8D26129C8D04C009A8D6D /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B8D26029C8D04C009A8D6D /* Country.swift */; };
 		A9B8D26329C8D551009A8D6D /* CountryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B8D26229C8D551009A8D6D /* CountryViewModel.swift */; };
 		A9B8D26629C8DB8B009A8D6D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9B8D26529C8DB8B009A8D6D /* GoogleService-Info.plist */; };
@@ -39,6 +42,9 @@
 		A91992FB29731C8100B54161 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A91992FD29731C8300B54161 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A919930029731C8300B54161 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A91F2B642A2F790600901C26 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
+		A91F2B682A2F7AB700901C26 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		A91F2B6C2A2F927000901C26 /* WeatherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfo.swift; sourceTree = "<group>"; };
 		A9B8D26029C8D04C009A8D6D /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		A9B8D26229C8D551009A8D6D /* CountryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryViewModel.swift; sourceTree = "<group>"; };
 		A9B8D26529C8DB8B009A8D6D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Views/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -91,6 +97,7 @@
 		A91992F829731C8100B54161 /* xpatly */ = {
 			isa = PBXGroup;
 			children = (
+				A91F2B682A2F7AB700901C26 /* .gitignore */,
 				A9B8D26429C8D80B009A8D6D /* ViewModels */,
 				A9B8D25F29C8D038009A8D6D /* Models */,
 				A9B8D25E29C8D018009A8D6D /* Views */,
@@ -98,6 +105,7 @@
 				A9B8D26529C8DB8B009A8D6D /* GoogleService-Info.plist */,
 				A91992FD29731C8300B54161 /* Assets.xcassets */,
 				A91992FF29731C8300B54161 /* Preview Content */,
+				A91F2B642A2F790600901C26 /* Keys.swift */,
 			);
 			path = xpatly;
 			sourceTree = "<group>";
@@ -127,6 +135,7 @@
 				A9B8D26729CF2DAD009A8D6D /* Visa.swift */,
 				A9B8D26929CF2DBD009A8D6D /* User.swift */,
 				A9B9EC7529E47FA000A2C524 /* Region.swift */,
+				A91F2B6C2A2F927000901C26 /* WeatherInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -214,6 +223,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A91F2B692A2F7AB700901C26 /* .gitignore in Resources */,
 				A919930129731C8300B54161 /* Preview Assets.xcassets in Resources */,
 				A9B8D26629C8DB8B009A8D6D /* GoogleService-Info.plist in Resources */,
 				A91992FE29731C8300B54161 /* Assets.xcassets in Resources */,
@@ -228,12 +238,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9B9EC7829E71DCA00A2C524 /* RegionViewModel.swift in Sources */,
+				A91F2B652A2F790600901C26 /* Keys.swift in Sources */,
 				A9B9EC7629E47FA000A2C524 /* Region.swift in Sources */,
 				A91992FC29731C8100B54161 /* ContentView.swift in Sources */,
 				A9B8D26829CF2DAD009A8D6D /* Visa.swift in Sources */,
 				A9B8D26A29CF2DBD009A8D6D /* User.swift in Sources */,
 				A9EF4DBC2A0043F500F8AE7A /* CountryInfoView.swift in Sources */,
 				A9B8D26129C8D04C009A8D6D /* Country.swift in Sources */,
+				A91F2B6D2A2F927000901C26 /* WeatherInfo.swift in Sources */,
 				A9B8D26329C8D551009A8D6D /* CountryViewModel.swift in Sources */,
 				A9B9EC7429E2D3B900A2C524 /* VisaViewModel.swift in Sources */,
 				A9B9EC7229DCAC0C00A2C524 /* CountryView.swift in Sources */,

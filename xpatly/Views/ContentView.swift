@@ -18,6 +18,8 @@ struct ContentView: View {
     @State var chosenNationality: Country?
     @State var chosenRegion: Region?
     @State var showEligableCountries = false
+    @State var weatherInfo: WeatherInfo?
+
     
     
     var body: some View {
@@ -77,8 +79,17 @@ struct ContentView: View {
                                     .padding()
                                 List {
                                     ForEach (countryViewModel.eligableCountries, id: \.self) { country in
-                                        NavigationLink(destination: CountryInfoView(country: country)) {
+                                        NavigationLink(destination: CountryInfoView(country: country, weatherInfo: $weatherInfo)) {
                                             Text("\(country.flag) \(country.name)")
+                                        }.onTapGesture {
+                                            print("hi")
+                                            Task {
+                                                do {
+                                                    weatherInfo = try await countryViewModel.getCountryWeather(_countryName: country.name)
+                                                } catch {
+                                                    print(error)
+                                                }
+                                            }
                                         }
                                     }
                                 }

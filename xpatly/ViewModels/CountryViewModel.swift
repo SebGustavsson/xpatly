@@ -16,6 +16,7 @@ class CountryViewModel: ObservableObject {
     @Published var preferredRegion: Region?
     @ObservedObject var regionViewModel = RegionViewModel()
     @Published var yearsOfExperience: Int = 0
+    @Published var weatherInfos: WeatherInfo?
     var countriesFromPreferredRegion: [Country] = []
     var eligableCountries: [Country] = []
     let db = Firestore.firestore()
@@ -57,7 +58,6 @@ class CountryViewModel: ObservableObject {
     
     func filterCountriesFromRegion() throws -> [Country] {
         selectedCountry == nil ? selectedCountry = allCountries.first : nil
-        print(allCountries[0].visas)
         return allCountries.filter { $0.region?.documentID == preferredRegion!.id && $0.id != selectedCountry!.id}
     }
     
@@ -76,6 +76,33 @@ class CountryViewModel: ObservableObject {
             }
         }
         return filteredCountries
+    }
+    
+    
+    
+    func getCountryWeather(_countryName: String) async throws -> WeatherInfo {
+        guard let url = URL(string: "https://api.weatherapi.com/v1/current.json?key=\(Keys.weatherAPIKey)&q=\(_countryName)&aqi=no") else {
+            print("error")
+            throw WeatherAPIError.invalidURL
+        }
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            if let decodedResponse = try? JSONDecoder().decode(WeatherInfo.self, from: data) {
+                weatherInfos = decodedResponse
+                print(weatherInfos?.current)
+                print("test")
+            }
+        } catch {
+            print(error)
+        }
+        return weatherInfos!
+    }
+    
+    enum WeatherAPIError: Error {
+        case invalidURL
+        case decodingFailed
+        case networkError(Error)
     }
     
 

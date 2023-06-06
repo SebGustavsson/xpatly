@@ -13,6 +13,7 @@ import Firebase
 
 struct CountryInfoView: View {
     var country: Country
+    @Binding var weatherInfo: WeatherInfo?
     let countryImageURLs = [
         "Malaysia": "photo-1508062878650-88b52897f298",
         "South Korea": "photo-1517154421773-0529f29ea451",
@@ -43,9 +44,11 @@ struct CountryInfoView: View {
                     ForEach(country.visas!, id: \.self) { visa in
                         Section {
                             Text(visa.type)
-                            Text("Duration: \(visa.duration)")
-                            Text("Required work experience: \(visa.experience)")
-                            
+                            visa.duration > 1 ? Text("Duration: \(visa.duration) year") : Text("Duration: \(visa.duration) years")
+                            Text("Required work experience: \(visa.experience) years")
+                            if (visa.visaLink.count > 0) {
+                                Link("Learn more", destination: URL(string: visa.visaLink)!)
+                            }
                         }
                     }
                 }
@@ -58,6 +61,6 @@ struct CountryInfoView: View {
  struct CountryInfoView_Previews: PreviewProvider {
     static var previews: some View {
         let dummyRef = Firestore.firestore().document("dummy/country")
-        CountryInfoView(country: Country(name: "Malaysia", id: "3", visas: [Visa(type: "Digital nomad", duration: 1, experience: 0, description: "Malaysia offers a digital nomad visa program that allows remote workers to live and work in the country for 1 year. To qualify for the visa, applicants need to demonstrate a steady source of remote income, possess valid health insurance, and meet specific criteria set by the Malaysian government. ", visaLink: "<a href='https://mdec.my/derantau'>Tap to learn more</a>")], region: dummyRef, countryCode: "MY", description: "Known for its technological advancements, South Korea is a perfect destination for digital nomads. With high-speed internet, efficient public transportation, and bustling cities like Seoul, you'll have access to a thriving tech scene and a rich cultural experience." ))
+        CountryInfoView(country: Country(name: "Malaysia", id: "3", visas: [Visa(type: "Digital nomad", duration: 1, experience: 0, description: "Malaysia offers a digital nomad visa program that allows remote workers to live and work in the country for 1 year. To qualify for the visa, applicants need to demonstrate a steady source of remote income, possess valid health insurance, and meet specific criteria set by the Malaysian government. ", visaLink: "<a href='https://mdec.my/derantau'>Tap to learn more</a>")], region: dummyRef, countryCode: "MY", description: "Known for its technological advancements, South Korea is a perfect destination for digital nomads. With high-speed internet, efficient public transportation, and bustling cities like Seoul, you'll have access to a thriving tech scene and a rich cultural experience." ), weatherInfo: .constant(nil))
     }
 }
