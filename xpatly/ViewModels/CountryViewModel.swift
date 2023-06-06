@@ -27,7 +27,10 @@ class CountryViewModel: ObservableObject {
             return Visa(
                         type: document["type"] as? String ?? "",
                         duration: document["duration"] as? Int ?? 0,
-                        experience: document["experience"] as? Int ?? 0)
+                        experience: document["experience"] as? Int ?? 0,
+                        description: document["description"] as? String ?? "",
+                        visaLink: document["visa_link"] as? String ?? ""
+            )
         }
     }
     
@@ -52,13 +55,14 @@ class CountryViewModel: ObservableObject {
         return countries
     }
     
-    func filterCountriesFromRegion()  throws -> [Country] {
+    func filterCountriesFromRegion() throws -> [Country] {
         selectedCountry == nil ? selectedCountry = allCountries.first : nil
+        print(allCountries[0].visas)
         return allCountries.filter { $0.region?.documentID == preferredRegion!.id && $0.id != selectedCountry!.id}
     }
     
     // returns countries that have a visa with a required work experience matching the users
-    func filterCountriesByExperience()  throws -> [Country] {
+    func filterCountriesByExperience() throws -> [Country] {
         let countriesByRegion = try filterCountriesFromRegion()
         var filteredCountries: [Country] = []
         for country in countriesByRegion {
