@@ -52,8 +52,8 @@ struct CountryInfoView: View {
                         }
                     }
                 }
-                Text("\(weatherInfo?.current.temp_c ?? 0)°")
-                Image(systemName: "sun")
+                Text(
+                    weatherInfo?.current.condition.text ?? "")
                 Spacer()
             }
         }

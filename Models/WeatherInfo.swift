@@ -28,7 +28,7 @@ struct WeatherInfo: Codable {
 
         let last_updated_epoch: Int
         let last_updated: String
-        let temp_c: Int
+        let temp_c: Double
         let temp_f: Double
         let is_day: Int
         let condition: Condition
