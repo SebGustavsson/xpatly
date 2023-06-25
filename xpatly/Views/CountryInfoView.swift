@@ -19,6 +19,7 @@ struct CountryInfoView: View {
         "South Korea": "photo-1517154421773-0529f29ea451",
         "Indonesia": "photo-1501179691627-eeaa65ea017c"
     ]
+
     
     var body: some View {
         ScrollView {
@@ -53,8 +54,9 @@ struct CountryInfoView: View {
                     }
                 }
                 Text("\(weatherInfo?.current.temp_c ?? 0)°")
-                Image(systemName: "sun")
+                AsyncImage(url: URL(string: "https:\(weatherInfo?.current.condition.icon ?? "")"))
                 Spacer()
+                 
             }
         }
     }
