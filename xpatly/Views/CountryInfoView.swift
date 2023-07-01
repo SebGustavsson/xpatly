@@ -22,19 +22,27 @@ struct CountryInfoView: View {
 
     
     var body: some View {
-        ScrollView {
             VStack(spacing: 10) {
-                Image(countryImageURLs[country.name] ?? "default")
-                    .resizable()
-                    .ignoresSafeArea()
-                    .frame(height: 500)
+                ScrollView(.horizontal) {
+                    HStack(spacing: 20) {
+                    Image(countryImageURLs[country.name] ?? "default")
+                        .resizable()
+                        .ignoresSafeArea()
+                        .frame(height: 500)
+                    }
+                }
                 
                 Section {
-                    Text(country.name)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack {
+                        Text(country.name)
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .padding(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Spacer()
+                        Text("\(weatherInfo?.current.temp_c ?? 0)°")
+                        AsyncImage(url: URL(string: "https:\(weatherInfo?.current.condition.icon ?? "")"))
+                    }
                     
                     Text(country.description)
                         .padding(15)
@@ -53,13 +61,10 @@ struct CountryInfoView: View {
                         }
                     }
                 }
-                Text("\(weatherInfo?.current.temp_c ?? 0)°")
-                AsyncImage(url: URL(string: "https:\(weatherInfo?.current.condition.icon ?? "")"))
                 Spacer()
                  
             }
         }
-    }
 }
 
  struct CountryInfoView_Previews: PreviewProvider {

@@ -81,8 +81,7 @@ struct ContentView: View {
                                     ForEach (countryViewModel.eligableCountries, id: \.self) { country in
                                         NavigationLink(destination: CountryInfoView(country: country, weatherInfo: $weatherInfo)) {
                                             Text("\(country.flag) \(country.name)")
-                                        }.onTapGesture {
-                                            print("hi")
+                                        }.onAppear {
                                             Task {
                                                 do {
                                                     weatherInfo = try await countryViewModel.getCountryWeather(_countryName: country.name)
