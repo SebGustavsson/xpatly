@@ -14,22 +14,16 @@ import Firebase
 struct CountryInfoView: View {
     var country: Country
     @Binding var weatherInfo: WeatherInfo?
-    let countryImageURLs = [
-        "Malaysia": "photo-1508062878650-88b52897f298",
-        "South Korea": "photo-1517154421773-0529f29ea451",
-        "Indonesia": "photo-1501179691627-eeaa65ea017c"
-    ]
-
+    
     
     var body: some View {
+        ScrollView {
             VStack(spacing: 10) {
-                ScrollView(.horizontal) {
-                    HStack(spacing: 20) {
-                    Image(countryImageURLs[country.name] ?? "default")
+                HStack(spacing: 20) {
+                    Image("\(country.name)-1")
                         .resizable()
                         .ignoresSafeArea()
                         .frame(height: 500)
-                    }
                 }
                 
                 Section {
@@ -39,9 +33,9 @@ struct CountryInfoView: View {
                             .fontWeight(.bold)
                             .padding(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Spacer()
                         Text("\(weatherInfo?.current.temp_c ?? 0)°")
                         AsyncImage(url: URL(string: "https:\(weatherInfo?.current.condition.icon ?? "")"))
+                        Spacer()
                     }
                     
                     Text(country.description)
@@ -62,9 +56,10 @@ struct CountryInfoView: View {
                     }
                 }
                 Spacer()
-                 
+                
             }
         }
+    }
 }
 
  struct CountryInfoView_Previews: PreviewProvider {

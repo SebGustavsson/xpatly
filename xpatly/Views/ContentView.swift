@@ -15,11 +15,22 @@ struct ContentView: View {
     @ObservedObject var countryViewModel = CountryViewModel()
     @ObservedObject var visaViewModel = VisaViewModel()
     @StateObject private var regionViewModel = RegionViewModel()
-    @State var chosenNationality: Country?
+    
     @State var chosenRegion: Region?
     @State var showEligableCountries = false
     @State var weatherInfo: WeatherInfo?
-
+    @State var chosenNationality: Country?
+    
+    init() {
+        chosenNationality = getUserNationality()
+    }
+    
+    func getUserNationality() -> Country? {
+        guard let countryCode = Locale.current.region?.identifier else {
+            return nil
+        }
+        return countryViewModel.allCountries.first {$0.countryCode == countryCode}
+    }
     
     
     var body: some View {
@@ -27,6 +38,7 @@ struct ContentView: View {
             Form {
                 Section(header: Text("Nationality")) {
                     Picker(selection: $chosenNationality, label: Text("What's your nationality?")) {
+                        
                         
                         ForEach(countryViewModel.allCountries) { country in
                             Text("\(country.flag) \(country.name)").tag(country as Country?)
@@ -104,6 +116,7 @@ struct ContentView: View {
                     let regions = try await regionViewModel.getAllRegions()
                         regionViewModel.allRegions = regions
                         chosenRegion = regionViewModel.allRegions.first
+                    chosenNationality = getUserNationality()
                 } catch {
                     print("\(error)")
                 }

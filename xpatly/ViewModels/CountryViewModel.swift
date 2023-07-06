@@ -20,6 +20,8 @@ class CountryViewModel: ObservableObject {
     var countriesFromPreferredRegion: [Country] = []
     var eligableCountries: [Country] = []
     let db = Firestore.firestore()
+
+
     
     // fetches an array containing each countries visas
     func getVisa(for country: Country) async throws -> [Visa] {
@@ -53,6 +55,7 @@ class CountryViewModel: ObservableObject {
             country.visas = visas
             countries.append(country)
         }
+        print(Locale.current.language.region?.identifier)
         return countries
     }
     
