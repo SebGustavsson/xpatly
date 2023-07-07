@@ -21,9 +21,6 @@ struct ContentView: View {
     @State var weatherInfo: WeatherInfo?
     @State var chosenNationality: Country?
     
-    init() {
-        chosenNationality = getUserNationality()
-    }
     
     func getUserNationality() -> Country? {
         guard let countryCode = Locale.current.region?.identifier else {
