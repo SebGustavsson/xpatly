@@ -18,33 +18,39 @@ struct CountryInfoView: View {
     
     
     init(country: Country, weatherInfo: Binding<WeatherInfo?>) {
-           self.country = country
-           self._weatherInfo = weatherInfo
-           self.imageNames = getImages()
+        self.country = country
+        self._weatherInfo = weatherInfo
+        self.imageNames = getImages()
     }
+    
+    
+
     
     func getImages() -> [String] {
         var imageNames: [String] = []
-        let imageAmount = 10
+        let imageAmount = 3
         for number in 1...imageAmount {
             let imageName = "\(country.name)-\(number)"
             imageNames.append(imageName)
         }
         return imageNames
     }
+    
  
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                HStack(spacing: 20) {
+                TabView {
                     ForEach(imageNames, id: \.self) { imageName in
                         Image(imageName)
                             .resizable()
                             .ignoresSafeArea()
                             .frame(height: 500)
                     }
-                   
                 }
+                .tabViewStyle(PageTabViewStyle())
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                .frame(height: 500)
                 
                 Section {
                     HStack {
@@ -61,12 +67,13 @@ struct CountryInfoView: View {
                     Text(country.description)
                         .padding(15)
                 }
+               
                 Section {
                     Text("Available visas: ")
                         .font(.largeTitle)
-                    ForEach(country.visas!, id: \.self) { visa in
-                        Section {
-                            Text(visa.type)
+                    Section {
+                        ForEach(country.visas!, id: \.self) { visa in
+                            Text("Type: \(visa.type)")
                             visa.duration > 1 ? Text("Duration: \(visa.duration) year") : Text("Duration: \(visa.duration) years")
                             Text("Required work experience: \(visa.experience) years")
                             if (visa.visaLink.count > 0) {
@@ -74,9 +81,13 @@ struct CountryInfoView: View {
                             }
                         }
                     }
+                    .padding(.leading, 15)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 15)
+
                 Spacer()
-                
+
             }
         }
     }
